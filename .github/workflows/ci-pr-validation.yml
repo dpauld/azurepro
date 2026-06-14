@@ -1,0 +1,29 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches:
+      - main # Triggers whenever a PR is opened or updated targeting the main branch
+      - 'sprint-*' # Triggers on PRs targeting sprint-1, sprint-2, etc.
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the code proposed in the Pull Request
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Set up the Java JDK environment
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # 3. Compile code, run style checks, and run unit tests
+      # Notice there is no deployment step here!
+      - name: Build and Test with Maven
+        run: mvn clean verify
