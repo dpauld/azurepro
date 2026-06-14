@@ -10,6 +10,10 @@ jobs:
   validate-and-test:
     runs-on: ubuntu-latest
 
+    env:
+      # Set environment variables for Azure deployment
+      SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
     steps:
       # 1. Checkout the code proposed in the Pull Request
       - name: Checkout Code
